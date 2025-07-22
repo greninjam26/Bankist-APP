@@ -1,0 +1,168 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: inherit;
+}
+
+html {
+    font-size: 62.5%;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Poppins, sans-serif;
+    background-color: #f3f3f3;
+    color: #444;
+    height: 100vh;
+    padding: 2rem;
+}
+
+.btn {
+    border: none;
+    background: none;
+    font-size: 2.2rem;
+    color: inherit;
+    transition: all 0.3s;
+}
+
+.btn:hover,
+.btn:focus {
+    cursor: pointer;
+    color: #777;
+    outline: none;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2rem;
+}
+
+.welcome {
+    font-size: 1.9rem;
+    font-weight: 500;
+}
+
+.logo {
+    height: 5.25rem;
+}
+
+.login {
+    display: flex;
+    gap: 1rem;
+}
+
+.login-input {
+    border: 1px solid #fff;
+    border-radius: 1000px;
+    background-color: #fff;
+    padding: 0.5rem 2rem;
+    width: 12rem;
+    text-align: center;
+    font-size: 1.6rem;
+    font-family: inherit;
+    color: inherit;
+    transition: all 0.3s;
+}
+
+.login-input:focus {
+    outline: none;
+    border: 1px solid #ccc;
+}
+
+.login-input::placeholder {
+    color: #bbb;
+}
+
+/* MAIN */
+.user-interface {
+    display: grid;
+    grid-template-columns: 4fr 3fr;
+    grid-template-rows: auto repeat(3, 15rem) auto;
+    gap: 2rem;
+    max-width: 100rem;
+    margin: 4rem auto;
+
+    /* add in the fade in and out */
+    /* opacity: 0; */
+    transition: all 1s;
+}
+
+.balance {
+    grid-column: 1/-1;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+}
+
+.balance-label {
+    font-size: 2.2rem;
+    font-weight: 500;
+    margin-bottom: -0.2rem;
+}
+
+.balance-date {
+    font-size: 1.4rem;
+    color: #888;
+}
+
+.current-balance {
+    font-size: 4.5rem;
+    font-weight: 400;
+}
+
+.transactions {
+    grid-row: 2 / span 3;
+    background-color: #fff;
+    border-radius: 1rem;
+    overflow: scroll;
+    /* display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0, 1rem, 2rem rgba(0, 0, 0, 0.6); */
+}
+
+.transaction-state {
+    color: #fff;
+    background-color: greenyellow;
+}
+
+.action {
+    padding: 3rem;
+    border-radius: 9px;
+}
+
+.actions-input {
+    border: none;
+    border-radius: 9px;
+    background-color: rgba(255, 255, 255, 0.5);
+    padding: 1rem 2rem;
+}
+
+.btn-actions {
+    background-color: #fff;
+    padding: 0.5rem 1.5rem;
+    border-radius: 9px;
+}
+
+.transfer {
+    background-color: yellow;
+}
+
+.loan {
+    background-color: green;
+}
+
+.close-account {
+    background-color: red;
+}
+
+.summary {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+/* moving styles */

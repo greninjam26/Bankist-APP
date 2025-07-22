@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="shortcut icon" type="image/png" href="icon.png" />
+        <link
+            href="https://fonts.googleapis.com/css?family=Poppins:400,500,600&display=swap"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" href="style.css" />
+        <title>Bankist</title>
+    </head>
+    <body>
+        <nav>
+            <p class="welcome">Log in to get started</p>
+            <img src="logo.png" alt="bank logo" class="logo" />
+            <form class="login">
+                <input type="text" class="login-input" placeholder="user" />
+                <input type="text" class="login-input" placeholder="PIN" />
+                <button class="btn btn-check">&rarr;</button>
+            </form>
+        </nav>
+        <main class="user-interface">
+            <div class="balance">
+                <div>
+                    <p class="balance-label">Current Balance</p>
+                    <p class="balance-date">
+                        As of <span class="login-date">20/07/2025, 10:09</span>
+                    </p>
+                </div>
+                <p class="current-balance">25 000,00 €</p>
+            </div>
+            <div class="transactions">
+                <p class="transaction-state">1 deposit</p>
+                <p class="transaction-time">28/01/2019</p>
+                <p class="transaction-amount">200,00 €</p>
+            </div>
+            <div class="action transfer">
+                <h2 class="actions-title">Transfer money</h2>
+                <input type="text" class="actions-input" />
+                <input type="number" class="actions-input" />
+                <button class="btn btn-actions">&rarr;</button>
+                <p>Transfer to</p>
+                <p>Amount</p>
+            </div>
+            <div class="action loan">
+                <h2 class="actions-title">Request loan</h2>
+                <input type="number" class="actions-input" />
+                <button class="btn btn-actions">&rarr;</button>
+                <p>Amount</p>
+            </div>
+            <div class="action close-account">
+                <h2 class="actions-title">Close account</h2>
+                <input type="text" class="actions-input" />
+                <input type="text" class="actions-input" />
+                <button class="btn btn-actions">&rarr;</button>
+                <p>Confirm user</p>
+                <p>Comfirm PIN</p>
+            </div>
+            <div class="summary">
+                <p class="in">in <span>00000 €</span></p>
+                <p class="out">out <span>00000 €</span></p>
+                <p class="interest">interest <span>00000 €</span></p>
+                <button class="btn btn-sort-transactions">&darr;sort</button>
+            </div>
+            <p class="logout-timer">You will be logged out in 10:00</p>
+        </main>
+        <script src="script.js"></script>
+    </body>
+</html>
