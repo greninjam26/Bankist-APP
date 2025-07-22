@@ -23,11 +23,11 @@ body {
     font-size: 2.2rem;
     color: inherit;
     transition: all 0.3s;
+    cursor: pointer;
 }
 
 .btn:hover,
 .btn:focus {
-    cursor: pointer;
     color: #777;
     outline: none;
 }
@@ -118,51 +118,160 @@ nav {
     background-color: #fff;
     border-radius: 1rem;
     overflow: scroll;
-    /* display: flex;
+    /* box-shadow: 0, 1rem, 2rem rgba(0, 0, 0, 0.6); */
+}
+
+.transaction {
+    display: flex;
     align-items: center;
-    justify-content: space-between;
-    box-shadow: 0, 1rem, 2rem rgba(0, 0, 0, 0.6); */
+    padding: 2.25rem 4rem;
+    border-bottom: 1px solid #eee;
 }
 
 .transaction-state {
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    font-weight: 500;
     color: #fff;
-    background-color: greenyellow;
+    padding: 0.1rem 1rem;
+    border-radius: 100rem;
+    margin-right: 2rem;
+}
+
+.transaction-state-withdrawal {
+    background-image: linear-gradient(to top left, #e52a5a, #ff585f);
+}
+
+.transaction-state-deposit {
+    background-image: linear-gradient(to top left, #39b385, #9be15d);
+}
+
+.transaction-date {
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: #666;
+}
+
+.transaction-amount {
+    font-size: 1.7rem;
+    margin-left: auto;
 }
 
 .action {
-    padding: 3rem;
-    border-radius: 9px;
+    padding: 3rem 4rem;
+    border-radius: 1rem;
+    color: #333;
 }
 
-.actions-input {
+.actions-title {
+    margin-bottom: 1.5rem;
+    font-size: 1.7rem;
+    font-weight: 600;
+    color: #333;
+}
+
+.action-form {
+    display: grid;
+    grid-template-columns: 2.5fr 2.5fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 0.4rem 1rem;
+}
+
+.loan-form {
+    grid-template-columns: 2.5fr 1fr 2.5fr;
+}
+
+.loan-label {
+    grid-row: 2;
+}
+
+.action-inputs {
+    width: 100%;
     border: none;
-    border-radius: 9px;
-    background-color: rgba(255, 255, 255, 0.5);
-    padding: 1rem 2rem;
+    border-radius: 0.7rem;
+    background-color: rgba(255, 255, 255, 0.4);
+    font-family: inherit;
+    font-size: 1.5rem;
+    text-align: center;
+    color: #333;
+    padding: 0.3rem 1rem;
+    transition: all 0.3s;
+}
+
+.action-inputs:focus {
+    outline: none;
+    background-color: rgba(255, 255, 255, 0.6);
+}
+
+.action-label {
+    font-size: 1.3rem;
+    text-align: center;
 }
 
 .btn-actions {
     background-color: #fff;
-    padding: 0.5rem 1.5rem;
-    border-radius: 9px;
+    border-radius: 0.7rem;
+    font-size: 1.8rem;
+}
+
+.btn-actions:focus {
+    background-color: rgba(255, 255, 255, 0.8);
 }
 
 .transfer {
-    background-color: yellow;
+    background-image: linear-gradient(to top left, #ffb003, #ffcb03);
 }
 
 .loan {
-    background-color: green;
+    background-image: linear-gradient(to top left, #39b385, #9be15d);
 }
 
 .close-account {
-    background-color: red;
+    background-image: linear-gradient(to top left, #e52a5a, #ff585f);
 }
 
 .summary {
     display: flex;
-    align-items: center;
-    gap: 2rem;
+    align-items: baseline;
+    padding: 0 0.3rem;
+    margin-right: 0.8rem;
 }
 
-/* moving styles */
+.summary-label {
+    font-size: 1.2rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    margin-right: 0.8rem;
+}
+
+.summary-value {
+    font-size: 2.2rem;
+    margin-right: 2.5rem;
+}
+
+.deposited,
+.interests {
+    color: #66c873;
+}
+
+.deposited {
+    color: #f5465d;
+}
+
+.btn-sort-transactions {
+    margin-left: auto;
+    font-size: 1.3rem;
+    font-weight: 500;
+}
+
+.logout-timer {
+    padding: 0 0.3rem;
+    margin-top: 1.9rem;
+    text-align: right;
+    font-size: 1.25rem;
+}
+
+.timer {
+    font-weight: 600;
+}

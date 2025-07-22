@@ -32,39 +32,60 @@
                 <p class="current-balance">25 000,00 €</p>
             </div>
             <div class="transactions">
-                <p class="transaction-state">1 deposit</p>
-                <p class="transaction-time">28/01/2019</p>
-                <p class="transaction-amount">200,00 €</p>
+                <div class="transaction">
+                    <p class="transaction-state transaction-state-deposit">1 deposit</p>
+                    <p class="transaction-date">28/01/2019</p>
+                    <p class="transaction-amount">200,00 €</p>
+                </div>
+                <div class="transaction">
+                    <p class="transaction-state transaction-state-withdrawal">
+                        1 withdrawal
+                    </p>
+                    <p class="transaction-date">today</p>
+                    <p class="transaction-amount">200,00 €</p>
+                </div>
             </div>
             <div class="action transfer">
                 <h2 class="actions-title">Transfer money</h2>
-                <input type="text" class="actions-input" />
-                <input type="number" class="actions-input" />
-                <button class="btn btn-actions">&rarr;</button>
-                <p>Transfer to</p>
-                <p>Amount</p>
+                <form class="action-form">
+                    <input type="text" class="action-inputs" />
+                    <input type="number" class="action-inputs" />
+                    <button class="btn btn-actions">&rarr;</button>
+                    <p class="action-label">Transfer to</p>
+                    <p class="action-label">Amount</p>
+                </form>
             </div>
             <div class="action loan">
                 <h2 class="actions-title">Request loan</h2>
-                <input type="number" class="actions-input" />
-                <button class="btn btn-actions">&rarr;</button>
-                <p>Amount</p>
+                <form class="action-form loan-form">
+                    <input type="number" class="action-inputs" />
+                    <button class="btn btn-actions">&rarr;</button>
+                    <p class="action-label loan-label">Amount</p>
+                </form>
             </div>
             <div class="action close-account">
                 <h2 class="actions-title">Close account</h2>
-                <input type="text" class="actions-input" />
-                <input type="text" class="actions-input" />
-                <button class="btn btn-actions">&rarr;</button>
-                <p>Confirm user</p>
-                <p>Comfirm PIN</p>
+                <form class="action-form">
+                    <input type="text" class="action-inputs" />
+                    <input type="text" class="action-inputs" />
+                    <button class="btn btn-actions">&rarr;</button>
+                    <p class="action-label">Confirm user</p>
+                    <p class="action-label">Comfirm PIN</p>
+                </form>
             </div>
             <div class="summary">
-                <p class="in">in <span>00000 €</span></p>
-                <p class="out">out <span>00000 €</span></p>
-                <p class="interest">interest <span>00000 €</span></p>
+                <p class="summary-label">
+                    in <span class="summary-value deposited">00000 €</span>
+                </p>
+                <p class="summary-label">
+                    out <span class="summary-value withdrawaled">00000 €</span>
+                </p>
+                <p class="summary-label">
+                    interest <span class="summary-value interests">00000 €</span>
+                </p>
                 <button class="btn btn-sort-transactions">&darr;sort</button>
             </div>
-            <p class="logout-timer">You will be logged out in 10:00</p>
+            <p class="logout-timer">You will be logged out in <span class="timer">10:00</span></p>
         </main>
         <script src="script.js"></script>
     </body>
