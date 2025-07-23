@@ -32,7 +32,6 @@ const accounts = [account1, account2, account3, account4];
 
 // select all the needed DOM elements
 const [loginUserEl, loginPINEl] = document.querySelectorAll(".login-input");
-const btnCheck = document.querySelector(".btn-check");
 const transactionsEl = document.querySelector(".transactions");
 const currentBalanceEl = document.querySelector(".current-balance");
 const depositedEl = document.querySelector(".deposited");
@@ -40,6 +39,16 @@ const withdrawaledEl = document.querySelector(".withdrawaled");
 const interestsEl = document.querySelector(".interests");
 const welcomeEl = document.querySelector(".welcome");
 const userInterface = document.querySelector(".user-interface");
+const transferInputName = document.querySelector(".transfer-input-name");
+const transferInputAmount = document.querySelector(".transfer-input-amount");
+const loanInput = document.querySelector(".loan-input");
+const closeInputUsername = document.querySelector(".close-input-username");
+const closeInputPIN = document.querySelector(".close-input-pin");
+
+const btnCheck = document.querySelector(".btn-check");
+const btnTransfer = document.querySelector(".btn-transfer");
+const btnLoan = document.querySelector(".btn-loan");
+const btnClose = document.querySelector(".btn-close");
 
 // display the transactions of the account
 const displayTransactions = function (transactions) {
@@ -63,7 +72,7 @@ const displayTransactions = function (transactions) {
 // calculation and display the current balance
 const calcDisplayBalance = function (account) {
     account.balance = account.transactions.reduce((sum, cur) => sum + cur, 0);
-    currentBalanceEl.textContent = account.balance + "€";
+    currentBalanceEl.textContent = `${account.balance}€`;
 };
 
 const calcDisplaySummery = function (account) {
@@ -95,12 +104,25 @@ const createUsername = function (account) {
 };
 accounts.forEach(createUsername);
 
+// search for an account
+const searchAccount = function (inputUsername) {
+    return accounts.find((account) => account.username === inputUsername);
+};
+
+// update the UI
+const updateUI = function (account) {
+    displayTransactions(account.transactions);
+    calcDisplayBalance(account);
+    calcDisplaySummery(account);
+};
+
 // login
 let currentAccount;
 btnCheck.addEventListener("click", function (e) {
     // stops the form from reloading the page
     e.preventDefault();
-    currentAccount = accounts.find((account) => account.username === loginUserEl.value);
+    console.log(loginUserEl.value);
+    currentAccount = searchAccount(loginUserEl.value);
     console.log(currentAccount);
     if (currentAccount?.pin === Number(loginPINEl.value)) {
         console.log("hi");
@@ -108,11 +130,29 @@ btnCheck.addEventListener("click", function (e) {
         welcomeEl.textContent = `Welcome back, ${currentAccount.owner.split(" ")[0]}`;
         // display the page
         userInterface.style.opacity = 1;
-        displayTransactions(currentAccount.transactions);
-        calcDisplayBalance(currentAccount);
-        calcDisplaySummery(currentAccount);
+        updateUI(currentAccount);
         // clear the username and PIN
         loginUserEl.value = loginPINEl.value = "";
         loginPINEl.blur();
     }
+});
+
+// transfer
+btnTransfer.addEventListener("click", function (e) {
+    e.preventDefault();
+    const transferAmount = Number(transferInputAmount.value);
+    const transferAccount = searchAccount(transferInputName.value);
+    if (
+        transferAccount &&
+        transferAmount > 0 &&
+        currentAccount.balance >= transferAmount &&
+        transferAccount !== currentAccount
+    ) {
+        transferAccount.transactions.push(transferAmount);
+        currentAccount.transactions.push(-transferAmount);
+        updateUI(currentAccount);
+    }
+    transferInputAmount.value = "";
+    transferInputName.value = "";
+    transferInputAmount.blur();
 });
