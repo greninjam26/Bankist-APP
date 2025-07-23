@@ -121,11 +121,8 @@ let currentAccount;
 btnCheck.addEventListener("click", function (e) {
     // stops the form from reloading the page
     e.preventDefault();
-    console.log(loginUserEl.value);
     currentAccount = searchAccount(loginUserEl.value);
-    console.log(currentAccount);
     if (currentAccount?.pin === Number(loginPINEl.value)) {
-        console.log("hi");
         // display welcome
         welcomeEl.textContent = `Welcome back, ${currentAccount.owner.split(" ")[0]}`;
         // display the page
@@ -155,4 +152,22 @@ btnTransfer.addEventListener("click", function (e) {
     transferInputAmount.value = "";
     transferInputName.value = "";
     transferInputAmount.blur();
+});
+
+// close account
+btnClose.addEventListener("click", function (e) {
+    e.preventDefault();
+    if (
+        currentAccount.username === closeInputUsername.value &&
+        currentAccount.pin === Number(closeInputPIN.value)
+    ) {
+        accounts.splice(
+            accounts.findIndex((account) => account === currentAccount),
+            1
+        );
+        console.log(accounts);
+        userInterface.style.opacity = 0;
+    }
+    closeInputPIN = closeInputUsername = "";
+    closeInputPIN.blur();
 });

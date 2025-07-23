@@ -67,7 +67,11 @@
                 <h2 class="actions-title">Close account</h2>
                 <form class="action-form">
                     <input type="text" class="action-inputs close-input-username" />
-                    <input type="text" class="action-inputs close-input-pin" />
+                    <input
+                        type="password"
+                        maxlength="6"
+                        class="action-inputs close-input-pin"
+                    />
                     <button class="btn btn-actions btn-close">&rarr;</button>
                     <p class="action-label">Confirm user</p>
                     <p class="action-label">Comfirm PIN</p>
@@ -85,7 +89,9 @@
                 </p>
                 <button class="btn btn-sort-transactions">&darr;sort</button>
             </div>
-            <p class="logout-timer">You will be logged out in <span class="timer">10:00</span></p>
+            <p class="logout-timer">
+                You will be logged out in <span class="timer">10:00</span>
+            </p>
         </main>
         <script src="script.js"></script>
     </body>
