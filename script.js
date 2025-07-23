@@ -34,7 +34,10 @@ const accounts = [account1, account2, account3, account4];
 const [loginUserEl, loginPINEl] = document.querySelectorAll(".login-input");
 const btnCheck = document.querySelector(".btn-check");
 const transactionsEl = document.querySelector(".transactions");
-const currentBalanceEl = document.querySelector('.current-balance');
+const currentBalanceEl = document.querySelector(".current-balance");
+const depositedEl = document.querySelector(".deposited");
+const withdrawaledEl = document.querySelector(".withdrawaled");
+const interestsEl = document.querySelector(".interests");
 
 // display the transactions of the account
 const displayTransactions = function (transactions) {
@@ -47,7 +50,7 @@ const displayTransactions = function (transactions) {
             i + 1
         } ${type}</p>
                 <p class="transaction-date">later</p>
-                <p class="transaction-amount">${transaction} €</p>
+                <p class="transaction-amount">${transaction}€</p>
             </div>
         `;
         console.log(transactionRow);
@@ -58,10 +61,30 @@ displayTransactions(account1.transactions);
 
 // calculation and display the current balance
 const calcDisplayBalance = function (account) {
-    account.balance = account.transactions.reduce((sum, cur) => sum+cur, 0);
+    account.balance = account.transactions.reduce((sum, cur) => sum + cur, 0);
     currentBalanceEl.textContent = account.balance + "€";
-}
+};
 calcDisplayBalance(accounts[0]);
+
+const calcDisplaySummery = function (account) {
+    account.deposits = account.transactions
+        .filter((cur) => cur > 0)
+        .reduce((acc, sum) => acc + sum, 0);
+    depositedEl.textContent = account.deposits + "€";
+
+    account.withdrawals = Math.abs(
+        account.transactions.filter((cur) => cur < 0).reduce((acc, sum) => acc + sum, 0)
+    );
+    withdrawaledEl.textContent = account.withdrawals + "€";
+
+    account.interests = account.transactions
+        .filter((cur) => cur > 0)
+        .map((cur) => (cur * account.interestRate) / 100)
+        .filter((cur) => cur >= 1)
+        .reduce((acc, cur) => acc + cur, 0);
+    interestsEl.textContent = account.interests + "€";
+};
+calcDisplaySummery(account1);
 
 // create the username for the account
 const createUsername = function (account) {
