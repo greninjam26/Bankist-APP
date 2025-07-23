@@ -112,7 +112,7 @@ btnCheck.addEventListener("click", function (e) {
         calcDisplayBalance(currentAccount);
         calcDisplaySummery(currentAccount);
         // clear the username and PIN
-        loginUserEl.value = "";
-        loginPINEl.value = "";
+        loginUserEl.value = loginPINEl.value = "";
+        loginPINEl.blur();
     }
 });
