@@ -30,10 +30,12 @@ const account4 = {
 
 const accounts = [account1, account2, account3, account4];
 
+// select all the needed DOM elements
 const [loginUserEl, loginPINEl] = document.querySelectorAll(".login-input");
 const btnCheck = document.querySelector(".btn-check");
 const transactionsEl = document.querySelector(".transactions");
 
+// display the transactions of the account
 const displayTransactions = function (transactions) {
     transactionsEl.innerHTML = "";
     transactions.forEach(function (transaction, i) {
@@ -52,6 +54,16 @@ const displayTransactions = function (transactions) {
     });
 };
 displayTransactions(account1.transactions);
+
+// create the username for the account
+const createUsername = function (account) {
+    account.username = account.owner
+        .toLowerCase()
+        .split(" ")
+        .map((name) => name[0])
+        .join("");
+};
+accounts.forEach(createUsername);
 
 btnCheck.addEventListener("click", function () {
     console.log(loginUserEl.value);
