@@ -38,6 +38,8 @@ const currentBalanceEl = document.querySelector(".current-balance");
 const depositedEl = document.querySelector(".deposited");
 const withdrawaledEl = document.querySelector(".withdrawaled");
 const interestsEl = document.querySelector(".interests");
+const welcomeEl = document.querySelector(".welcome");
+const userInterface = document.querySelector(".user-interface");
 
 // display the transactions of the account
 const displayTransactions = function (transactions) {
@@ -57,14 +59,12 @@ const displayTransactions = function (transactions) {
         transactionsEl.insertAdjacentHTML("afterbegin", transactionRow);
     });
 };
-displayTransactions(account1.transactions);
 
 // calculation and display the current balance
 const calcDisplayBalance = function (account) {
     account.balance = account.transactions.reduce((sum, cur) => sum + cur, 0);
     currentBalanceEl.textContent = account.balance + "€";
 };
-calcDisplayBalance(accounts[0]);
 
 const calcDisplaySummery = function (account) {
     account.deposits = account.transactions
@@ -84,7 +84,6 @@ const calcDisplaySummery = function (account) {
         .reduce((acc, cur) => acc + cur, 0);
     interestsEl.textContent = account.interests + "€";
 };
-calcDisplaySummery(account1);
 
 // create the username for the account
 const createUsername = function (account) {
@@ -96,7 +95,24 @@ const createUsername = function (account) {
 };
 accounts.forEach(createUsername);
 
-btnCheck.addEventListener("click", function () {
-    console.log(loginUserEl.value);
-    console.log(loginPINEl.value);
+// login
+let currentAccount;
+btnCheck.addEventListener("click", function (e) {
+    // stops the form from reloading the page
+    e.preventDefault();
+    currentAccount = accounts.find((account) => account.username === loginUserEl.value);
+    console.log(currentAccount);
+    if (currentAccount?.pin === Number(loginPINEl.value)) {
+        console.log("hi");
+        // display welcome
+        welcomeEl.textContent = `Welcome back, ${currentAccount.owner.split(" ")[0]}`;
+        // display the page
+        userInterface.style.opacity = 1;
+        displayTransactions(currentAccount.transactions);
+        calcDisplayBalance(currentAccount);
+        calcDisplaySummery(currentAccount);
+        // clear the username and PIN
+        loginUserEl.value = "";
+        loginPINEl.value = "";
+    }
 });

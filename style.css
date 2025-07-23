@@ -85,7 +85,7 @@ nav {
     margin: 4rem auto;
 
     /* add in the fade in and out */
-    /* opacity: 0; */
+    opacity: 0;
     transition: all 1s;
 }
 
