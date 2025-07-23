@@ -34,6 +34,7 @@ const accounts = [account1, account2, account3, account4];
 const [loginUserEl, loginPINEl] = document.querySelectorAll(".login-input");
 const btnCheck = document.querySelector(".btn-check");
 const transactionsEl = document.querySelector(".transactions");
+const currentBalanceEl = document.querySelector('.current-balance');
 
 // display the transactions of the account
 const displayTransactions = function (transactions) {
@@ -54,6 +55,13 @@ const displayTransactions = function (transactions) {
     });
 };
 displayTransactions(account1.transactions);
+
+// calculation and display the current balance
+const calcDisplayBalance = function (account) {
+    account.balance = account.transactions.reduce((sum, cur) => sum+cur, 0);
+    currentBalanceEl.textContent = account.balance + "€";
+}
+calcDisplayBalance(accounts[0]);
 
 // create the username for the account
 const createUsername = function (account) {
