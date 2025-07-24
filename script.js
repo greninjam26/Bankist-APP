@@ -161,9 +161,8 @@ btnLoan.addEventListener("click", function (e) {
     loanInput.value = "";
     loanInput.blur();
     if (
-        currentAccount.transactions
-            .filter(transaction => transaction > 0)
-            .some(transaction => transaction >= loanAmount * 0.1)
+        loanAmount > 0 &&
+        currentAccount.transactions.some(transaction => transaction >= loanAmount * 0.1)
     ) {
         currentAccount.transactions.push(loanAmount);
         updateUI(currentAccount);
