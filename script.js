@@ -153,7 +153,7 @@ btnCheck.addEventListener("click", function (e) {
     // stops the form from reloading the page
     e.preventDefault();
     currentAccount = searchAccount(loginUserEl.value);
-    if (currentAccount?.pin === Number(loginPINEl.value)) {
+    if (currentAccount?.pin === +loginPINEl.value) {
         // display welcome
         welcomeEl.textContent = `Welcome back, ${currentAccount.owner.split(" ")[0]}`;
         // display the page
@@ -168,7 +168,7 @@ btnCheck.addEventListener("click", function (e) {
 // transfer
 btnTransfer.addEventListener("click", function (e) {
     e.preventDefault();
-    const transferAmount = Number(transferInputAmount.value);
+    const transferAmount = +transferInputAmount.value;
     const transferAccount = searchAccount(transferInputName.value);
     if (
         transferAccount &&
@@ -189,7 +189,7 @@ btnTransfer.addEventListener("click", function (e) {
 // this bank will only give a loan when you have a deposit of at least 10% of the loan amount
 btnLoan.addEventListener("click", function (e) {
     e.preventDefault();
-    const loanAmount = Number(loanInput.value);
+    const loanAmount = +loanInput.value;
     loanInput.value = "";
     loanInput.blur();
     if (
@@ -206,7 +206,7 @@ btnClose.addEventListener("click", function (e) {
     e.preventDefault();
     if (
         currentAccount.username === closeInputUsername.value &&
-        currentAccount.pin === Number(closeInputPIN.value)
+        currentAccount.pin === +closeInputPIN.value
     ) {
         accounts.splice(
             accounts.findIndex(account => account === currentAccount),
