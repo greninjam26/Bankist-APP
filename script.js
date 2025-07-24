@@ -64,7 +64,6 @@ const displayTransactions = function (transactions) {
                 <p class="transaction-amount">${transaction}€</p>
             </div>
         `;
-        console.log(transactionRow);
         transactionsEl.insertAdjacentHTML("afterbegin", transactionRow);
     });
 };
@@ -77,19 +76,19 @@ const calcDisplayBalance = function (account) {
 
 const calcDisplaySummery = function (account) {
     account.deposits = account.transactions
-        .filter((cur) => cur > 0)
+        .filter(cur => cur > 0)
         .reduce((acc, sum) => acc + sum, 0);
     depositedEl.textContent = account.deposits + "€";
 
     account.withdrawals = Math.abs(
-        account.transactions.filter((cur) => cur < 0).reduce((acc, sum) => acc + sum, 0)
+        account.transactions.filter(cur => cur < 0).reduce((acc, sum) => acc + sum, 0)
     );
     withdrawaledEl.textContent = account.withdrawals + "€";
 
     account.interests = account.transactions
-        .filter((cur) => cur > 0)
-        .map((cur) => (cur * account.interestRate) / 100)
-        .filter((cur) => cur >= 1)
+        .filter(cur => cur > 0)
+        .map(cur => (cur * account.interestRate) / 100)
+        .filter(cur => cur >= 1)
         .reduce((acc, cur) => acc + cur, 0);
     interestsEl.textContent = account.interests + "€";
 };
@@ -99,14 +98,14 @@ const createUsername = function (account) {
     account.username = account.owner
         .toLowerCase()
         .split(" ")
-        .map((name) => name[0])
+        .map(name => name[0])
         .join("");
 };
 accounts.forEach(createUsername);
 
 // search for an account
 const searchAccount = function (inputUsername) {
-    return accounts.find((account) => account.username === inputUsername);
+    return accounts.find(account => account.username === inputUsername);
 };
 
 // update the UI
@@ -154,6 +153,23 @@ btnTransfer.addEventListener("click", function (e) {
     transferInputAmount.blur();
 });
 
+// get a loan
+// this bank will only give a loan when you have a deposit of at least 10% of the loan amount
+btnLoan.addEventListener("click", function (e) {
+    e.preventDefault();
+    const loanAmount = Number(loanInput.value);
+    loanInput.value = "";
+    loanInput.blur();
+    if (
+        currentAccount.transactions
+            .filter(transaction => transaction > 0)
+            .some(transaction => transaction >= loanAmount * 0.1)
+    ) {
+        currentAccount.transactions.push(loanAmount);
+        updateUI(currentAccount);
+    }
+});
+
 // close account
 btnClose.addEventListener("click", function (e) {
     e.preventDefault();
@@ -162,10 +178,9 @@ btnClose.addEventListener("click", function (e) {
         currentAccount.pin === Number(closeInputPIN.value)
     ) {
         accounts.splice(
-            accounts.findIndex((account) => account === currentAccount),
+            accounts.findIndex(account => account === currentAccount),
             1
         );
-        console.log(accounts);
         userInterface.style.opacity = 0;
     }
     closeInputPIN = closeInputUsername = "";
