@@ -2,7 +2,7 @@
 // Data
 const account1 = {
     owner: "Jonas Schmedtmann",
-    transactions: [200, 450, -400, 3000, -650, -130, 70, 1300],
+    transactions: [200, 455.23, -306.5, 25000, -642.21, -133.9, 79.97, 1300],
     interestRate: 1.2, // %
     pin: 1111,
 
@@ -54,7 +54,7 @@ const account2 = {
 //     pin: 4444,
 // };
 
-const accounts = [account1, account2, account3, account4];
+const accounts = [account1, account2];
 
 // select all the needed DOM elements
 const [loginUserEl, loginPINEl] = document.querySelectorAll(".login-input");
