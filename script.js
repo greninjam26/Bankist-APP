@@ -49,11 +49,18 @@ const btnCheck = document.querySelector(".btn-check");
 const btnTransfer = document.querySelector(".btn-transfer");
 const btnLoan = document.querySelector(".btn-loan");
 const btnClose = document.querySelector(".btn-close");
+const btnSort = document.querySelector(".btn-sort-transactions");
+
+// utility variables
+let currentAccount;
+let currentOrder = false;
 
 // display the transactions of the account
-const displayTransactions = function (transactions) {
+const displayTransactions = function (account, sort) {
     transactionsEl.innerHTML = "";
-    transactions.forEach(function (transaction, i) {
+    account.sortedTransactions = account.transactions.slice().sort((a, b) => a - b);
+    const trans = sort ? account.sortedTransactions : account.transactions;
+    trans.forEach(function (transaction, i) {
         const type = transaction > 0 ? "deposit" : "withdrawal";
         const transactionRow = `
             <div class="transaction">
@@ -109,14 +116,13 @@ const searchAccount = function (inputUsername) {
 };
 
 // update the UI
-const updateUI = function (account) {
-    displayTransactions(account.transactions);
+const updateUI = function (account, order) {
+    displayTransactions(account, order);
     calcDisplayBalance(account);
     calcDisplaySummery(account);
 };
 
 // login
-let currentAccount;
 btnCheck.addEventListener("click", function (e) {
     // stops the form from reloading the page
     e.preventDefault();
@@ -126,7 +132,7 @@ btnCheck.addEventListener("click", function (e) {
         welcomeEl.textContent = `Welcome back, ${currentAccount.owner.split(" ")[0]}`;
         // display the page
         userInterface.style.opacity = 1;
-        updateUI(currentAccount);
+        updateUI(currentAccount, currentOrder);
         // clear the username and PIN
         loginUserEl.value = loginPINEl.value = "";
         loginPINEl.blur();
@@ -146,7 +152,7 @@ btnTransfer.addEventListener("click", function (e) {
     ) {
         transferAccount.transactions.push(transferAmount);
         currentAccount.transactions.push(-transferAmount);
-        updateUI(currentAccount);
+        updateUI(currentAccount, currentOrder);
     }
     transferInputAmount.value = "";
     transferInputName.value = "";
@@ -165,7 +171,7 @@ btnLoan.addEventListener("click", function (e) {
         currentAccount.transactions.some(transaction => transaction >= loanAmount * 0.1)
     ) {
         currentAccount.transactions.push(loanAmount);
-        updateUI(currentAccount);
+        updateUI(currentAccount, currentOrder);
     }
 });
 
@@ -184,4 +190,10 @@ btnClose.addEventListener("click", function (e) {
     }
     closeInputPIN = closeInputUsername = "";
     closeInputPIN.blur();
+});
+
+// sort button
+btnSort.addEventListener("click", function (e) {
+    e.preventDefault();
+    displayTransactions(currentAccount, (currentOrder = !currentOrder));
 });
