@@ -90,19 +90,23 @@ const setDate = date =>
 // display the transactions of the account
 const displayTransactions = function (account, sort) {
     transactionsEl.innerHTML = "";
-    account.sortedTransactions = account.transactions.slice().sort((a, b) => a - b);
-    const trans = sort ? account.sortedTransactions : account.transactions;
-    trans.forEach(function (transaction, i) {
-        const type = transaction > 0 ? "deposit" : "withdrawal";
+    account.transactionsInfo = account.transactions.map((transaction, i) => ({
+        transaction,
+        date: account.transactionsDates[i],
+    }));
+    account.sortedTransactionsInfo = account.transactionsInfo.slice().sort((a, b) => a.transaction - b.transaction);
+    const trans = sort ? account.sortedTransactionsInfo : account.transactionsInfo;
+    trans.forEach(function (transactionInfo, i) {
+        const type = transactionInfo.transaction > 0 ? "deposit" : "withdrawal";
         const transactionRow = `
             <div class="transaction">
                 <p class="transaction-state transaction-state-${type}">${
             i + 1
         } ${type}</p>
                 <p class="transaction-date">${setDate(
-                    new Date(account.transactionsDates[i])
+                    new Date(transactionInfo.date)
                 )}</p>
-                <p class="transaction-amount">${transaction.toFixed(2)}€</p>
+                <p class="transaction-amount">${transactionInfo.transaction.toFixed(2)}€</p>
             </div>
         `;
         transactionsEl.insertAdjacentHTML("afterbegin", transactionRow);
