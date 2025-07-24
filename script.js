@@ -83,7 +83,9 @@ let currentAccount;
 let currentOrder = false;
 
 // utility functions
-const setDate = date => `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
+const tDNum = num => `${num}`.padStart(2, "0");
+const setDate = date =>
+    `${tDNum(date.getDate())}/${tDNum(date.getMonth() + 1)}/${tDNum(date.getFullYear())}`;
 
 // display the transactions of the account
 const displayTransactions = function (account, sort) {
@@ -97,7 +99,9 @@ const displayTransactions = function (account, sort) {
                 <p class="transaction-state transaction-state-${type}">${
             i + 1
         } ${type}</p>
-                <p class="transaction-date">${setDate(new Date(account.transactionsDates[i]))}</p>
+                <p class="transaction-date">${setDate(
+                    new Date(account.transactionsDates[i])
+                )}</p>
                 <p class="transaction-amount">${transaction.toFixed(2)}€</p>
             </div>
         `;
@@ -110,7 +114,8 @@ const calcDisplayBalance = function (account) {
     account.balance = account.transactions.reduce((sum, cur) => sum + cur, 0);
     currentBalanceEl.textContent = `${account.balance.toFixed(2)}€`;
     const date = new Date();
-    loginDate.textContent = setDate(date) + `, ${date.getHours()}:${date.getMinutes()}`;
+    loginDate.textContent =
+        setDate(date) + `, ${tDNum(date.getHours())}:${tDNum(date.getMinutes())}`;
 };
 
 const calcDisplaySummery = function (account) {
@@ -153,6 +158,11 @@ const updateUI = function (account, order) {
     calcDisplayBalance(account);
     calcDisplaySummery(account);
 };
+
+// SKIP LOGIN
+userInterface.style.opacity = 1;
+currentAccount = account1;
+updateUI(currentAccount, currentOrder);
 
 // login
 btnCheck.addEventListener("click", function (e) {
