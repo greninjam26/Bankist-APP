@@ -94,7 +94,7 @@ const displayTransactions = function (account, sort) {
             i + 1
         } ${type}</p>
                 <p class="transaction-date">later</p>
-                <p class="transaction-amount">${transaction}€</p>
+                <p class="transaction-amount">${transaction.toFixed(2)}€</p>
             </div>
         `;
         transactionsEl.insertAdjacentHTML("afterbegin", transactionRow);
@@ -104,26 +104,26 @@ const displayTransactions = function (account, sort) {
 // calculation and display the current balance
 const calcDisplayBalance = function (account) {
     account.balance = account.transactions.reduce((sum, cur) => sum + cur, 0);
-    currentBalanceEl.textContent = `${account.balance}€`;
+    currentBalanceEl.textContent = `${account.balance.toFixed(2)}€`;
 };
 
 const calcDisplaySummery = function (account) {
     account.deposits = account.transactions
         .filter(cur => cur > 0)
         .reduce((acc, sum) => acc + sum, 0);
-    depositedEl.textContent = account.deposits + "€";
+    depositedEl.textContent = account.deposits.toFixed(2) + "€";
 
     account.withdrawals = Math.abs(
         account.transactions.filter(cur => cur < 0).reduce((acc, sum) => acc + sum, 0)
     );
-    withdrawaledEl.textContent = account.withdrawals + "€";
+    withdrawaledEl.textContent = account.withdrawals.toFixed(2) + "€";
 
     account.interests = account.transactions
         .filter(cur => cur > 0)
         .map(cur => (cur * account.interestRate) / 100)
         .filter(cur => cur >= 1)
         .reduce((acc, cur) => acc + cur, 0);
-    interestsEl.textContent = account.interests + "€";
+    interestsEl.textContent = account.interests.toFixed(2) + "€";
 };
 
 // create the username for the account
@@ -189,7 +189,7 @@ btnTransfer.addEventListener("click", function (e) {
 // this bank will only give a loan when you have a deposit of at least 10% of the loan amount
 btnLoan.addEventListener("click", function (e) {
     e.preventDefault();
-    const loanAmount = +loanInput.value;
+    const loanAmount = Math.floor(loanInput.value);
     loanInput.value = "";
     loanInput.blur();
     if (
