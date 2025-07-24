@@ -192,8 +192,11 @@ btnTransfer.addEventListener("click", function (e) {
         currentAccount.balance >= transferAmount &&
         transferAccount !== currentAccount
     ) {
+        const date = new Date();
         transferAccount.transactions.push(transferAmount);
+        transferAccount.transactionsDates.push(date.toISOString());
         currentAccount.transactions.push(-transferAmount);
+        currentAccount.transactionsDates.push(date.toISOString());
         updateUI(currentAccount, currentOrder);
     }
     transferInputAmount.value = "";
@@ -212,7 +215,9 @@ btnLoan.addEventListener("click", function (e) {
         loanAmount > 0 &&
         currentAccount.transactions.some(transaction => transaction >= loanAmount * 0.1)
     ) {
+        const date = new Date();
         currentAccount.transactions.push(loanAmount);
+        currentAccount.transactionsDates.push(date.toISOString());
         updateUI(currentAccount, currentOrder);
     }
 });
