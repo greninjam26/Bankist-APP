@@ -6,7 +6,7 @@ const account1 = {
     interestRate: 1.2, // %
     pin: 1111,
 
-    movementsDates: [
+    transactionsDates: [
         "2019-11-18T21:31:17.178Z",
         "2019-12-23T07:42:02.383Z",
         "2020-01-28T09:15:04.904Z",
@@ -26,7 +26,7 @@ const account2 = {
     interestRate: 1.5,
     pin: 2222,
 
-    movementsDates: [
+    transactionsDates: [
         "2019-11-01T13:15:33.035Z",
         "2019-11-30T09:48:16.867Z",
         "2019-12-25T06:04:23.907Z",
@@ -59,6 +59,7 @@ const accounts = [account1, account2];
 // select all the needed DOM elements
 const [loginUserEl, loginPINEl] = document.querySelectorAll(".login-input");
 const transactionsEl = document.querySelector(".transactions");
+const loginDate = document.querySelector(".login-date");
 const currentBalanceEl = document.querySelector(".current-balance");
 const depositedEl = document.querySelector(".deposited");
 const withdrawaledEl = document.querySelector(".withdrawaled");
@@ -81,6 +82,9 @@ const btnSort = document.querySelector(".btn-sort-transactions");
 let currentAccount;
 let currentOrder = false;
 
+// utility functions
+const setDate = date => `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
+
 // display the transactions of the account
 const displayTransactions = function (account, sort) {
     transactionsEl.innerHTML = "";
@@ -93,7 +97,7 @@ const displayTransactions = function (account, sort) {
                 <p class="transaction-state transaction-state-${type}">${
             i + 1
         } ${type}</p>
-                <p class="transaction-date">later</p>
+                <p class="transaction-date">${setDate(new Date(account.transactionsDates[i]))}</p>
                 <p class="transaction-amount">${transaction.toFixed(2)}€</p>
             </div>
         `;
@@ -105,6 +109,8 @@ const displayTransactions = function (account, sort) {
 const calcDisplayBalance = function (account) {
     account.balance = account.transactions.reduce((sum, cur) => sum + cur, 0);
     currentBalanceEl.textContent = `${account.balance.toFixed(2)}€`;
+    const date = new Date();
+    loginDate.textContent = setDate(date) + `, ${date.getHours()}:${date.getMinutes()}`;
 };
 
 const calcDisplaySummery = function (account) {
