@@ -140,7 +140,11 @@ const displayTransactions = function (account, sort) {
             i + 1
         } ${type}</p>
                 <p class="transaction-date">${dateSet}</p>
-                <p class="transaction-amount">${setCurrency(account.locale, account.currency, transaction)}</p>
+                <p class="transaction-amount">${setCurrency(
+                    account.locale,
+                    account.currency,
+                    transaction
+                )}</p>
             </div>
         `;
         transactionsEl.insertAdjacentHTML("afterbegin", transactionRow);
@@ -150,7 +154,11 @@ const displayTransactions = function (account, sort) {
 // calculation and display the current balance
 const calcDisplayBalance = function (account) {
     account.balance = account.transactions.reduce((sum, cur) => sum + cur, 0);
-    currentBalanceEl.textContent = setCurrency(account.locale, account.currency, account.balance);
+    currentBalanceEl.textContent = setCurrency(
+        account.locale,
+        account.currency,
+        account.balance
+    );
     const date = new Date();
     loginDate.textContent = setDate(account, date, true);
 };
@@ -159,19 +167,31 @@ const calcDisplaySummery = function (account) {
     account.deposits = account.transactions
         .filter(cur => cur > 0)
         .reduce((acc, sum) => acc + sum, 0);
-    depositedEl.textContent = setCurrency(account.locale, account.currency, account.deposits);
+    depositedEl.textContent = setCurrency(
+        account.locale,
+        account.currency,
+        account.deposits
+    );
 
     account.withdrawals = Math.abs(
         account.transactions.filter(cur => cur < 0).reduce((acc, sum) => acc + sum, 0)
     );
-    withdrawaledEl.textContent = setCurrency(account.locale, account.currency, account.withdrawals);
+    withdrawaledEl.textContent = setCurrency(
+        account.locale,
+        account.currency,
+        account.withdrawals
+    );
 
     account.interests = account.transactions
         .filter(cur => cur > 0)
         .map(cur => (cur * account.interestRate) / 100)
         .filter(cur => cur >= 1)
         .reduce((acc, cur) => acc + cur, 0);
-    interestsEl.textContent = setCurrency(account.locale, account.currency, account.interests);
+    interestsEl.textContent = setCurrency(
+        account.locale,
+        account.currency,
+        account.interests
+    );
 };
 
 // create the username for the account
@@ -247,13 +267,16 @@ btnLoan.addEventListener("click", function (e) {
     const loanAmount = Math.floor(loanInput.value);
     loanInput.value = "";
     loanInput.blur();
-    if (
-        loanAmount > 0 &&
-        currentAccount.transactions.some(transaction => transaction >= loanAmount * 0.1)
-    ) {
+    const loanTimer = setTimeout(() => {
         currentAccount.transactions.push(loanAmount);
         currentAccount.transactionsDates.push(new Date().toISOString());
         updateUI(currentAccount, currentOrder);
+    }, 3000);
+    if (
+        loanAmount <= 0 ||
+        currentAccount.transactions.every(transaction => transaction < loanAmount * 0.1)
+    ) {
+        clearTimeout(loanTimer);
     }
 });
 
