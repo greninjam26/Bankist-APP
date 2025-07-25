@@ -2,7 +2,9 @@
 // Data
 const account1 = {
     owner: "Jonas Schmedtmann",
-    transactions: [200, 455.23, -306.5, 25000, -642.21, -133.9, 79.97, 1300, 1000, -349, 3248],
+    transactions: [
+        200, 455.23, -306.5, 25000, -642.21, -133.9, 79.97, 1300, 1000, -349, 3248,
+    ],
     interestRate: 1.2, // %
     pin: 1111,
 
@@ -87,8 +89,20 @@ let currentOrder = false;
 
 // utility functions
 const tDNum = num => `${num}`.padStart(2, "0");
-const setDate = date =>
-    `${tDNum(date.getDate())}/${tDNum(date.getMonth() + 1)}/${tDNum(date.getFullYear())}`;
+const setDate = function (account, date, includeTime = false) {
+    const options = {
+        year: "numeric",
+        month: "numeric",
+        day: "numeric",
+    };
+    if (includeTime) {
+        options.hour = "numeric";
+        options.minute = "numeric";
+    }
+    console.log(date);
+    console.log(account.locale);
+    return Intl.DateTimeFormat(account.locale, options).format(date);
+};
 const daysPassed = (start, end) => Math.round((end - start) / 1000 / 60 / 60 / 24);
 
 // display the transactions of the account
@@ -111,7 +125,7 @@ const displayTransactions = function (account, sort) {
         } else if (dif === 1) {
             dateSet = "yesterday";
         } else if (dif > 7) {
-            dateSet = setDate(time);
+            dateSet = setDate(account, time);
         }
         const type = transaction > 0 ? "deposit" : "withdrawal";
         const transactionRow = `
@@ -132,8 +146,7 @@ const calcDisplayBalance = function (account) {
     account.balance = account.transactions.reduce((sum, cur) => sum + cur, 0);
     currentBalanceEl.textContent = `${account.balance.toFixed(2)}€`;
     const date = new Date();
-    loginDate.textContent =
-        setDate(date) + `, ${tDNum(date.getHours())}:${tDNum(date.getMinutes())}`;
+    loginDate.textContent = setDate(account, date, true);
 };
 
 const calcDisplaySummery = function (account) {
