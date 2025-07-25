@@ -311,13 +311,13 @@ btnLoan.addEventListener("click", function (e) {
     const loanAmount = Math.floor(loanInput.value);
     loanInput.value = "";
     loanInput.blur();
+    // reset timer
+    clearInterval(timer);
+    timer = logoutTimer();
     const loanTimer = setTimeout(() => {
         currentAccount.transactions.push(loanAmount);
         currentAccount.transactionsDates.push(new Date().toISOString());
         updateUI(currentAccount, currentOrder);
-        // reset timer
-        clearInterval(timer);
-        timer = logoutTimer();
     }, 3000);
     if (
         loanAmount <= 0 ||
