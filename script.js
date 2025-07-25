@@ -76,6 +76,7 @@ const transferInputAmount = document.querySelector(".transfer-input-amount");
 const loanInput = document.querySelector(".loan-input");
 const closeInputUsername = document.querySelector(".close-input-username");
 const closeInputPIN = document.querySelector(".close-input-pin");
+const timerEl = document.querySelector(".timer");
 
 const btnCheck = document.querySelector(".btn-check");
 const btnTransfer = document.querySelector(".btn-transfer");
@@ -110,6 +111,11 @@ const setCurrency = function (locale, currency, num) {
     };
     return new Intl.NumberFormat(locale, options).format(num);
 };
+const setHourMin = (locale, time) =>
+    new Intl.DateTimeFormat(locale, {
+        minute: "numeric",
+        second: "numeric",
+    }).format(time);
 
 // display the transactions of the account
 const displayTransactions = function (account, sort) {
@@ -235,6 +241,22 @@ btnCheck.addEventListener("click", function (e) {
         // clear the username and PIN
         loginUserEl.value = loginPINEl.value = "";
         loginPINEl.blur();
+        const timerTime = new Date(3 * 1000);
+        timerEl.textContent = setHourMin(currentAccount.locale, timerTime);
+        const timer = setInterval(() => {
+            timerTime.setSeconds(timerTime.getSeconds() - 1);
+            timerEl.textContent = setHourMin(currentAccount.locale, timerTime);
+            if (timerTime.getMinutes() === 0 && timerTime.getSeconds() === 0) {
+                clearInterval(timer);
+                userInterface.style.opacity = 0;
+            }
+        }, 1000);
+        // when this is checked the first time it is false, then it is never checked again
+        // if (timerTime.getMinutes() === 0 && timerTime.getSeconds() === 0) {
+        //     console.log("?");
+        //     clearInterval(timer);
+        //     userInterface.style.opacity = 0;
+        // }
     }
 });
 
