@@ -86,6 +86,7 @@ let currentOrder = false;
 const tDNum = num => `${num}`.padStart(2, "0");
 const setDate = date =>
     `${tDNum(date.getDate())}/${tDNum(date.getMonth() + 1)}/${tDNum(date.getFullYear())}`;
+const daysPassed = (start, end) => Math.round((end - start) / 1000 / 60 / 60 / 24);
 
 // display the transactions of the account
 const displayTransactions = function (account, sort) {
@@ -94,18 +95,28 @@ const displayTransactions = function (account, sort) {
         transaction,
         date: account.transactionsDates[i],
     }));
-    account.sortedTransactionsInfo = account.transactionsInfo.slice().sort((a, b) => a.transaction - b.transaction);
+    account.sortedTransactionsInfo = account.transactionsInfo
+        .slice()
+        .sort((a, b) => a.transaction - b.transaction);
     const trans = sort ? account.sortedTransactionsInfo : account.transactionsInfo;
-    trans.forEach(function ({transaction, date}, i) {
+    trans.forEach(function ({ transaction, date }, i) {
+        const time = new Date(date);
+        const dif = daysPassed(time, new Date());
+        let dateSet = `${dif} days ago`;
+        if (dif === 0) {
+            dateSet = "now";
+        } else if (dif === 1) {
+            dateSet = "a day ago";
+        } else if (dif > 10) {
+            dateSet = setDate(time);
+        }
         const type = transaction > 0 ? "deposit" : "withdrawal";
         const transactionRow = `
             <div class="transaction">
                 <p class="transaction-state transaction-state-${type}">${
             i + 1
         } ${type}</p>
-                <p class="transaction-date">${setDate(
-                    new Date(date)
-                )}</p>
+                <p class="transaction-date">${dateSet}</p>
                 <p class="transaction-amount">${transaction.toFixed(2)}€</p>
             </div>
         `;
