@@ -340,7 +340,7 @@ btnClose.addEventListener("click", function (e) {
         );
         userInterface.style.opacity = 0;
     }
-    closeInputPIN = closeInputUsername = "";
+    closeInputPIN.value = closeInputUsername.value = "";
     closeInputPIN.blur();
     // stop timer
     clearInterval(timer);
