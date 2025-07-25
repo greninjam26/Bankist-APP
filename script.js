@@ -223,9 +223,9 @@ const updateUI = function (account, order) {
 };
 
 // SKIP LOGIN
-userInterface.style.opacity = 1;
-currentAccount = account1;
-updateUI(currentAccount, currentOrder);
+// userInterface.style.opacity = 1;
+// currentAccount = account1;
+// updateUI(currentAccount, currentOrder);
 
 // login
 btnCheck.addEventListener("click", function (e) {
@@ -241,12 +241,23 @@ btnCheck.addEventListener("click", function (e) {
         // clear the username and PIN
         loginUserEl.value = loginPINEl.value = "";
         loginPINEl.blur();
-        const timerTime = new Date(3 * 1000);
-        timerEl.textContent = setHourMin(currentAccount.locale, timerTime);
+        // WITH DATE
+        // const timerTime = new Date(10 * 60 * 1000);
+        // const timer = setInterval(() => {
+        //     timerTime.setSeconds(timerTime.getSeconds() - 1);
+        //     timerEl.textContent = setHourMin(currentAccount.locale, timerTime);
+        //     if (timerTime.getMinutes() === 0 && timerTime.getSeconds() === 0) {
+        //         clearInterval(timer);
+        //         userInterface.style.opacity = 0;
+        //     }
+        // }, 1000);
+        // WITH MATH
+        let timerTime = 10;
         const timer = setInterval(() => {
-            timerTime.setSeconds(timerTime.getSeconds() - 1);
-            timerEl.textContent = setHourMin(currentAccount.locale, timerTime);
-            if (timerTime.getMinutes() === 0 && timerTime.getSeconds() === 0) {
+            timerEl.textContent = `${tDNum(Math.floor(--timerTime / 60))}:${tDNum(
+                timerTime % 60
+            )}`;
+            if (timerTime === 0) {
                 clearInterval(timer);
                 userInterface.style.opacity = 0;
             }
