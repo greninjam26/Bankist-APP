@@ -100,9 +100,18 @@ const setDate = function (account, date, includeTime = false) {
     if (includeTime) {
         return Intl.DateTimeFormat(account.locale, options).format(date);
     }
-    return Intl.DateTimeFormat(account.locale).format(date);
+    return new Intl.DateTimeFormat(account.locale).format(date);
 };
 const daysPassed = (start, end) => Math.round((end - start) / 1000 / 60 / 60 / 24);
+const setCurrency = function (account, num) {
+    const options = {
+        style: "currency",
+        currency: account.currency,
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+    };
+    return new Intl.NumberFormat(account.locale, options).format(num);
+};
 
 // display the transactions of the account
 const displayTransactions = function (account, sort) {
@@ -133,7 +142,7 @@ const displayTransactions = function (account, sort) {
             i + 1
         } ${type}</p>
                 <p class="transaction-date">${dateSet}</p>
-                <p class="transaction-amount">${transaction.toFixed(2)}€</p>
+                <p class="transaction-amount">${setCurrency(account, transaction)}</p>
             </div>
         `;
         transactionsEl.insertAdjacentHTML("afterbegin", transactionRow);
@@ -143,7 +152,7 @@ const displayTransactions = function (account, sort) {
 // calculation and display the current balance
 const calcDisplayBalance = function (account) {
     account.balance = account.transactions.reduce((sum, cur) => sum + cur, 0);
-    currentBalanceEl.textContent = `${account.balance.toFixed(2)}€`;
+    currentBalanceEl.textContent = setCurrency(account, account.balance);
     const date = new Date();
     loginDate.textContent = setDate(account, date, true);
 };
@@ -152,19 +161,19 @@ const calcDisplaySummery = function (account) {
     account.deposits = account.transactions
         .filter(cur => cur > 0)
         .reduce((acc, sum) => acc + sum, 0);
-    depositedEl.textContent = account.deposits.toFixed(2) + "€";
+    depositedEl.textContent = setCurrency(account, account.deposits);
 
     account.withdrawals = Math.abs(
         account.transactions.filter(cur => cur < 0).reduce((acc, sum) => acc + sum, 0)
     );
-    withdrawaledEl.textContent = account.withdrawals.toFixed(2) + "€";
+    withdrawaledEl.textContent = setCurrency(account, account.withdrawals);
 
     account.interests = account.transactions
         .filter(cur => cur > 0)
         .map(cur => (cur * account.interestRate) / 100)
         .filter(cur => cur >= 1)
         .reduce((acc, cur) => acc + cur, 0);
-    interestsEl.textContent = account.interests.toFixed(2) + "€";
+    interestsEl.textContent = setCurrency(account, account.interests);
 };
 
 // create the username for the account
