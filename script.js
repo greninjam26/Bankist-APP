@@ -87,6 +87,7 @@ const btnSort = document.querySelector(".btn-sort-transactions");
 // utility variables
 let currentAccount;
 let currentOrder = false;
+let timer;
 
 // utility functions
 const tDNum = num => `${num}`.padStart(2, "0");
@@ -111,11 +112,12 @@ const setCurrency = function (locale, currency, num) {
     };
     return new Intl.NumberFormat(locale, options).format(num);
 };
-const setHourMin = (locale, time) =>
+const setHourMinDate = (locale, time) =>
     new Intl.DateTimeFormat(locale, {
         minute: "numeric",
         second: "numeric",
     }).format(time);
+const setHourMinNum = num => `${tDNum(Math.trunc(num / 60))}:${tDNum(num % 60)}`;
 
 // display the transactions of the account
 const displayTransactions = function (account, sort) {
@@ -231,6 +233,7 @@ const updateUI = function (account, order) {
 btnCheck.addEventListener("click", function (e) {
     // stops the form from reloading the page
     e.preventDefault();
+    clearInterval(timer);
     currentAccount = searchAccount(loginUserEl.value);
     if (currentAccount?.pin === +loginPINEl.value) {
         // display welcome
@@ -243,22 +246,23 @@ btnCheck.addEventListener("click", function (e) {
         loginPINEl.blur();
         // WITH DATE
         // const timerTime = new Date(10 * 60 * 1000);
+        // timerEl.textContent = setHourMinDate(currentAccount.locale, timerTime);
         // const timer = setInterval(() => {
         //     timerTime.setSeconds(timerTime.getSeconds() - 1);
-        //     timerEl.textContent = setHourMin(currentAccount.locale, timerTime);
+        //     timerEl.textContent = setHourMinDate(currentAccount.locale, timerTime);
         //     if (timerTime.getMinutes() === 0 && timerTime.getSeconds() === 0) {
         //         clearInterval(timer);
         //         userInterface.style.opacity = 0;
         //     }
         // }, 1000);
         // WITH MATH
-        let timerTime = 10*60;
-        const timer = setInterval(() => {
-            timerEl.textContent = `${tDNum(Math.floor(--timerTime / 60))}:${tDNum(
-                timerTime % 60
-            )}`;
+        let timerTime = 10 * 60;
+        timerEl.textContent = setHourMinNum(timerTime);
+        timer = setInterval(() => {
+            timerEl.textContent = setHourMinNum(--timerTime);
             if (timerTime === 0) {
                 clearInterval(timer);
+                welcomeEl.textContent = "Log in to get started";
                 userInterface.style.opacity = 0;
             }
         }, 1000);
