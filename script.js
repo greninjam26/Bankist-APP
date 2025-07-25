@@ -94,14 +94,13 @@ const setDate = function (account, date, includeTime = false) {
         year: "numeric",
         month: "numeric",
         day: "numeric",
+        hour: "numeric",
+        minute: "numeric",
     };
     if (includeTime) {
-        options.hour = "numeric";
-        options.minute = "numeric";
+        return Intl.DateTimeFormat(account.locale, options).format(date);
     }
-    console.log(date);
-    console.log(account.locale);
-    return Intl.DateTimeFormat(account.locale, options).format(date);
+    return Intl.DateTimeFormat(account.locale).format(date);
 };
 const daysPassed = (start, end) => Math.round((end - start) / 1000 / 60 / 60 / 24);
 
