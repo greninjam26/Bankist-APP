@@ -118,6 +118,36 @@ const setHourMinDate = (locale, time) =>
         second: "numeric",
     }).format(time);
 const setHourMinNum = num => `${tDNum(Math.trunc(num / 60))}:${tDNum(num % 60)}`;
+const logoutTimer = function () {
+    // WITH DATE
+    // const timerTime = new Date(10 * 60 * 1000);
+    // timerEl.textContent = setHourMinDate(currentAccount.locale, timerTime);
+    // return setInterval(() => {
+    //     timerTime.setSeconds(timerTime.getSeconds() - 1);
+    //     timerEl.textContent = setHourMinDate(currentAccount.locale, timerTime);
+    //     if (timerTime.getMinutes() === 0 && timerTime.getSeconds() === 0) {
+    //         clearInterval(timer);
+    //         userInterface.style.opacity = 0;
+    //     }
+    // }, 1000);
+    // WITH MATH
+    let timerTime = 10 * 60;
+    timerEl.textContent = setHourMinNum(timerTime);
+    return setInterval(() => {
+        timerEl.textContent = setHourMinNum(--timerTime);
+        if (timerTime === 0) {
+            clearInterval(timer);
+            welcomeEl.textContent = "Log in to get started";
+            userInterface.style.opacity = 0;
+        }
+    }, 1000);
+    // when this is checked the first time it is false, then it is never checked again
+    // if (timerTime.getMinutes() === 0 && timerTime.getSeconds() === 0) {
+    //     console.log("?");
+    //     clearInterval(timer);
+    //     userInterface.style.opacity = 0;
+    // }
+};
 
 // display the transactions of the account
 const displayTransactions = function (account, sort) {
@@ -233,7 +263,6 @@ const updateUI = function (account, order) {
 btnCheck.addEventListener("click", function (e) {
     // stops the form from reloading the page
     e.preventDefault();
-    clearInterval(timer);
     currentAccount = searchAccount(loginUserEl.value);
     if (currentAccount?.pin === +loginPINEl.value) {
         // display welcome
@@ -244,34 +273,9 @@ btnCheck.addEventListener("click", function (e) {
         // clear the username and PIN
         loginUserEl.value = loginPINEl.value = "";
         loginPINEl.blur();
-        // WITH DATE
-        // const timerTime = new Date(10 * 60 * 1000);
-        // timerEl.textContent = setHourMinDate(currentAccount.locale, timerTime);
-        // const timer = setInterval(() => {
-        //     timerTime.setSeconds(timerTime.getSeconds() - 1);
-        //     timerEl.textContent = setHourMinDate(currentAccount.locale, timerTime);
-        //     if (timerTime.getMinutes() === 0 && timerTime.getSeconds() === 0) {
-        //         clearInterval(timer);
-        //         userInterface.style.opacity = 0;
-        //     }
-        // }, 1000);
-        // WITH MATH
-        let timerTime = 10 * 60;
-        timerEl.textContent = setHourMinNum(timerTime);
-        timer = setInterval(() => {
-            timerEl.textContent = setHourMinNum(--timerTime);
-            if (timerTime === 0) {
-                clearInterval(timer);
-                welcomeEl.textContent = "Log in to get started";
-                userInterface.style.opacity = 0;
-            }
-        }, 1000);
-        // when this is checked the first time it is false, then it is never checked again
-        // if (timerTime.getMinutes() === 0 && timerTime.getSeconds() === 0) {
-        //     console.log("?");
-        //     clearInterval(timer);
-        //     userInterface.style.opacity = 0;
-        // }
+        // add timer
+        clearInterval(timer);
+        timer = logoutTimer();
     }
 });
 
@@ -291,6 +295,9 @@ btnTransfer.addEventListener("click", function (e) {
         currentAccount.transactions.push(-transferAmount);
         currentAccount.transactionsDates.push(new Date().toISOString());
         updateUI(currentAccount, currentOrder);
+        // reset timer
+        clearInterval(timer);
+        timer = logoutTimer();
     }
     transferInputAmount.value = "";
     transferInputName.value = "";
@@ -308,6 +315,9 @@ btnLoan.addEventListener("click", function (e) {
         currentAccount.transactions.push(loanAmount);
         currentAccount.transactionsDates.push(new Date().toISOString());
         updateUI(currentAccount, currentOrder);
+        // reset timer
+        clearInterval(timer);
+        timer = logoutTimer();
     }, 3000);
     if (
         loanAmount <= 0 ||
@@ -332,10 +342,15 @@ btnClose.addEventListener("click", function (e) {
     }
     closeInputPIN = closeInputUsername = "";
     closeInputPIN.blur();
+    // stop timer
+    clearInterval(timer);
 });
 
 // sort button
 btnSort.addEventListener("click", function (e) {
     e.preventDefault();
     displayTransactions(currentAccount, (currentOrder = !currentOrder));
+    // reset timer
+    clearInterval(timer);
+    timer = logoutTimer();
 });
