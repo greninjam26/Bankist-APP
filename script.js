@@ -109,8 +109,8 @@ const displayTransactions = function (account, sort) {
         if (dif === 0) {
             dateSet = "now";
         } else if (dif === 1) {
-            dateSet = "a day ago";
-        } else if (dif > 10) {
+            dateSet = "yesterday";
+        } else if (dif > 7) {
             dateSet = setDate(time);
         }
         const type = transaction > 0 ? "deposit" : "withdrawal";
