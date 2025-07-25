@@ -252,7 +252,7 @@ btnCheck.addEventListener("click", function (e) {
         //     }
         // }, 1000);
         // WITH MATH
-        let timerTime = 10;
+        let timerTime = 10*60;
         const timer = setInterval(() => {
             timerEl.textContent = `${tDNum(Math.floor(--timerTime / 60))}:${tDNum(
                 timerTime % 60
